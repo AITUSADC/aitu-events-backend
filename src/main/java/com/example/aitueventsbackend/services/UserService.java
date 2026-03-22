@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -30,13 +32,13 @@ public class UserService {
         return userRepo.findAll(pageable);
     }
 
-    public User getById(Long id) {
+    public User getById(UUID id) {
         return userRepo.findById(id).orElseThrow(() -> new UserNotFoundException());
     }
 
 
 
-    public User fullUpdate(Long id, Long telegramId, String username, String firstName, String lastName, Role role) {
+    public User fullUpdate(UUID id, Long telegramId, String username, String firstName, String lastName, Role role) {
         User user = userRepo.findById(id).orElseThrow(UserNotFoundException::new);
 
         // check if new telegram id already exist
@@ -53,7 +55,7 @@ public class UserService {
         return userRepo.save(user);
     }
 
-    public User partialUpdate(Long id, Long telegramId, String username, String firstName, String lastName, Role role) {
+    public User partialUpdate(UUID id, Long telegramId, String username, String firstName, String lastName, Role role) {
         User user = userRepo.findById(id).orElseThrow(UserNotFoundException::new);
 
         // check if new telegram id already exist
@@ -83,7 +85,7 @@ public class UserService {
         return userRepo.save(user);
     }
 
-    public void delete (Long id) {
+    public void delete (UUID id) {
         if (!userRepo.existsById(id)) {
             throw new UserNotFoundException();
         }

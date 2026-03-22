@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/users")
@@ -40,13 +42,13 @@ public class UserController {
 
     // Get one user by id
     @GetMapping("/{id}")
-    public UserResponseDto getUserById(@PathVariable Long id) {
+    public UserResponseDto getUserById(@PathVariable UUID id) {
         return toResponseDto(userService.getById(id));
     }
 
     // Update all fields of user
     @PutMapping("/{id}")
-    public UserResponseDto fullUpdateUser(@PathVariable Long id, @Valid @RequestBody UserCreateDto createDto) {
+    public UserResponseDto fullUpdateUser(@PathVariable UUID id, @Valid @RequestBody UserCreateDto createDto) {
         return toResponseDto(
                 userService.fullUpdate(
                         id,
@@ -61,7 +63,7 @@ public class UserController {
 
     // Update part of user
     @PatchMapping("/{id}")
-    public UserResponseDto partialUpdateUser(@PathVariable Long id, @RequestBody UserUpdateDto updateDto) {
+    public UserResponseDto partialUpdateUser(@PathVariable UUID id, @RequestBody UserUpdateDto updateDto) {
         return toResponseDto(
                 userService.partialUpdate(
                         id,
@@ -76,7 +78,7 @@ public class UserController {
 
     // Delete User
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable Long id) {
+    public String deleteUser(@PathVariable UUID id) {
          userService.delete(id);
          return "User deleted successfully.";
     }
