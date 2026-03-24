@@ -1,9 +1,10 @@
 package com.example.aitueventsbackend.dto;
 
+import com.example.aitueventsbackend.model.Role;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record UserCreateDto(
+public record UserFullUpdateDto(
         @NotNull
         Long telegramId,
 
@@ -14,7 +15,9 @@ public record UserCreateDto(
         String firstName,
 
         @NotBlank
-        String lastName
+        String lastName,
 
+        @NotNull
+        Role role
 ) {
 }

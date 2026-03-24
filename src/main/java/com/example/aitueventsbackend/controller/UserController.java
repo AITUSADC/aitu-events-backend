@@ -1,6 +1,7 @@
 package com.example.aitueventsbackend.controller;
 
 import com.example.aitueventsbackend.dto.UserCreateDto;
+import com.example.aitueventsbackend.dto.UserFullUpdateDto;
 import com.example.aitueventsbackend.dto.UserResponseDto;
 import com.example.aitueventsbackend.dto.UserUpdateDto;
 import com.example.aitueventsbackend.model.User;
@@ -28,8 +29,7 @@ public class UserController {
                         createDto.telegramId(),
                         createDto.username(),
                         createDto.firstName(),
-                        createDto.lastName(),
-                        createDto.role()
+                        createDto.lastName()
                 )
         );
     }
@@ -48,15 +48,15 @@ public class UserController {
 
     // Update all fields of user
     @PutMapping("/{id}")
-    public UserResponseDto fullUpdateUser(@PathVariable UUID id, @Valid @RequestBody UserCreateDto createDto) {
+    public UserResponseDto fullUpdateUser(@PathVariable UUID id, @Valid @RequestBody UserFullUpdateDto fullUpdateDto) {
         return toResponseDto(
                 userService.fullUpdate(
                         id,
-                        createDto.telegramId(),
-                        createDto.username(),
-                        createDto.firstName(),
-                        createDto.lastName(),
-                        createDto.role()
+                        fullUpdateDto.telegramId(),
+                        fullUpdateDto.username(),
+                        fullUpdateDto.firstName(),
+                        fullUpdateDto.lastName(),
+                        fullUpdateDto.role()
                 )
         );
     }

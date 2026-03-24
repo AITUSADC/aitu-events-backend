@@ -17,13 +17,13 @@ import java.util.UUID;
 public class UserService {
     private final UserRepo userRepo;
 
-    public User create(Long telegramId, String username, String firstName, String lastName, Role role) {
+    public User create(Long telegramId, String username, String firstName, String lastName) {
 
         if (userRepo.existsByTelegramId(telegramId)) {
             throw new UserAlreadyExistException(telegramId);
         }
 
-        User user = User.createUser(telegramId, username, firstName, lastName, role);
+        User user = User.createUser(telegramId, username, firstName, lastName);
 
         return userRepo.save(user);
     }

@@ -40,14 +40,14 @@ public class User {
     private Instant createdAt;
 
 
-    public static User createUser (Long telegramId, String username, String firstName, String lastName, Role role) {
+    public static User createUser (Long telegramId, String username, String firstName, String lastName) {
         User user = new User();
 
         user.telegramId = telegramId;
         user.username = username;
         user.firstName = firstName;
         user.lastName = lastName;
-        user.role = role != null ? role : Role.USER;
+        user.role = Role.USER;
 
         return user;
     }
