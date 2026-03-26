@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: eventAITU_postgres
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: AITU
+      POSTGRES_PASSWORD: Event-AITU-DB-Password
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    container_name: eventAITU_backend
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/db
+      DB_USERNAME: AITU
+      DB_PASSWORD: Event-AITU-DB-Password
+
+volumes:
+  pgdata:
