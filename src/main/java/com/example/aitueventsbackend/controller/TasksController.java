@@ -1,16 +1,17 @@
-package com.example.aitueventsbackend.Controller;
-
-import com.example.aitueventsbackend.TasksService.TasksService;
+package com.example.aitueventsbackend.controller;
+import com.example.aitueventsbackend.taskService.TasksService;
 import com.example.aitueventsbackend.dto.CreateTasksDto;
 import com.example.aitueventsbackend.dto.TasksResponseDto;
 import com.example.aitueventsbackend.dto.UpdateTasksDto;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,6 +31,12 @@ public class TasksController {
     public ResponseEntity<TasksResponseDto> getTaskById(@PathVariable UUID id) {
         log.info("Called getTaskById with id={}", id);
         return ResponseEntity.ok(tasksService.getTasksById(id));
+    }
+
+    @GetMapping("/paginated")
+    public ResponseEntity<Page<TasksResponseDto>> getTasksPaginated(Pageable pageable) {
+        log.info("Called getTasksPaginated");
+        return ResponseEntity.ok(tasksService.getTasksPaginated(pageable));
     }
 
     // ✅ GET ALL

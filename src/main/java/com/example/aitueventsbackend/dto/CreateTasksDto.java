@@ -1,9 +1,8 @@
 package com.example.aitueventsbackend.dto;
 
-import com.example.aitueventsbackend.TasksStatus.TaskStatus;
+import com.example.aitueventsbackend.model.TasksStatus;
+import com.example.aitueventsbackend.model.TasksStatus;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
@@ -13,7 +12,7 @@ public record CreateTasksDto(
         @NotBlank(message = "Description cannot be empty")
         String description,
         @NotNull(message = "Status is required")
-        TaskStatus status,
+        TasksStatus status,
         @NotNull
         LocalDate created_at,
         @NotNull(message = "deadline cannot be empty")
