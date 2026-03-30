@@ -1,5 +1,5 @@
 package com.example.aitueventsbackend.controller;
-import com.example.aitueventsbackend.taskService.TasksService;
+import com.example.aitueventsbackend.services.TasksService;
 import com.example.aitueventsbackend.dto.CreateTasksDto;
 import com.example.aitueventsbackend.dto.TasksResponseDto;
 import com.example.aitueventsbackend.dto.UpdateTasksDto;

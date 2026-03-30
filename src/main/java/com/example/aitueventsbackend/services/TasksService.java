@@ -1,4 +1,4 @@
-package com.example.aitueventsbackend.taskService;
+package com.example.aitueventsbackend.services;
 import com.example.aitueventsbackend.exceptions.TasksNotFoundException;
 import com.example.aitueventsbackend.model.Tasks;
 import com.example.aitueventsbackend.dto.CreateTasksDto;
