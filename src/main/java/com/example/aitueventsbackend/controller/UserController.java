@@ -9,10 +9,10 @@ import com.example.aitueventsbackend.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
-
 
 @RestController
 @RequestMapping("/users")
@@ -21,7 +21,6 @@ public class UserController {
 
     public UserController(UserService userService) {this.userService = userService;}
 
-    // Create user
     @PostMapping
     public UserResponseDto create(@Valid @RequestBody UserCreateDto createDto) {
         return toResponseDto(
@@ -34,19 +33,16 @@ public class UserController {
         );
     }
 
-    // Get all users
     @GetMapping
     public Page<UserResponseDto> getAllUsers(Pageable pageable) {
-        return userService.getAll(pageable).map(user -> toResponseDto(user));
+        return userService.getAll(pageable).map(this::toResponseDto);
     }
 
-    // Get one user by id
     @GetMapping("/{id}")
     public UserResponseDto getUserById(@PathVariable UUID id) {
         return toResponseDto(userService.getById(id));
     }
 
-    // Update all fields of user
     @PutMapping("/{id}")
     public UserResponseDto fullUpdateUser(@PathVariable UUID id, @Valid @RequestBody UserFullUpdateDto fullUpdateDto) {
         return toResponseDto(
@@ -61,7 +57,6 @@ public class UserController {
         );
     }
 
-    // Update part of user
     @PatchMapping("/{id}")
     public UserResponseDto partialUpdateUser(@PathVariable UUID id, @RequestBody UserUpdateDto updateDto) {
         return toResponseDto(
@@ -76,15 +71,13 @@ public class UserController {
         );
     }
 
-    // Delete User
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable UUID id) {
-         userService.delete(id);
-         return "User deleted successfully.";
+    public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
-    // method to convert user to response dto
-    public UserResponseDto toResponseDto (User user) {
+    private UserResponseDto toResponseDto(User user) {
         return new UserResponseDto(
                 user.getId(),
                 user.getTelegramId(),
@@ -95,5 +88,4 @@ public class UserController {
                 user.getCreatedAt()
         );
     }
-
 }

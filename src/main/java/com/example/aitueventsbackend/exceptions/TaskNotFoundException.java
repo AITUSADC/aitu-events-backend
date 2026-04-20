@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.UUID;
 
-@ResponseStatus(value = HttpStatus.NOT_FOUND)
-public class TasksNotFoundException extends RuntimeException {
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class TaskNotFoundException extends RuntimeException {
 
-    public TasksNotFoundException(UUID id) {
+    public TaskNotFoundException(UUID id) {
         super("Task not found with id: " + id);
     }
 }

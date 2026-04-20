@@ -1,11 +1,11 @@
 package com.example.aitueventsbackend.repository;
 
-import com.example.aitueventsbackend.model.Tasks;
+import com.example.aitueventsbackend.model.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
 @Repository
-public interface TasksRepository extends JpaRepository<Tasks, UUID> {
+public interface TaskRepository extends JpaRepository<Task, UUID> {
 }

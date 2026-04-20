@@ -1,5 +1,18 @@
-FROM openjdk:21-jdk-slim
+FROM eclipse-temurin:21-jdk AS builder
+WORKDIR /workspace
+
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle.kts settings.gradle.kts ./
+COPY src src
+
+RUN chmod +x gradlew && ./gradlew bootJar --no-daemon
+
+FROM eclipse-temurin:21-jre
 WORKDIR /app
-COPY build/libs/*.jar app.jar
+
+COPY --from=builder /workspace/build/libs/*.jar app.jar
+
 EXPOSE 8080
-CMD ["java", "-jar", "app.jar"]
+
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]

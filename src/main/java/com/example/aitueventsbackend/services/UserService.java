@@ -4,7 +4,7 @@ import com.example.aitueventsbackend.exceptions.UserAlreadyExistException;
 import com.example.aitueventsbackend.exceptions.UserNotFoundException;
 import com.example.aitueventsbackend.model.Role;
 import com.example.aitueventsbackend.model.User;
-import com.example.aitueventsbackend.repository.UserRepo;
+import com.example.aitueventsbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,34 +15,31 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    private final UserRepo userRepo;
+    private final UserRepository userRepository;
 
     public User create(Long telegramId, String username, String firstName, String lastName) {
 
-        if (userRepo.existsByTelegramId(telegramId)) {
+        if (userRepository.existsByTelegramId(telegramId)) {
             throw new UserAlreadyExistException(telegramId);
         }
 
         User user = User.createUser(telegramId, username, firstName, lastName);
 
-        return userRepo.save(user);
+        return userRepository.save(user);
     }
 
     public Page<User> getAll(Pageable pageable) {
-        return userRepo.findAll(pageable);
+        return userRepository.findAll(pageable);
     }
 
     public User getById(UUID id) {
-        return userRepo.findById(id).orElseThrow(() -> new UserNotFoundException());
+        return findByIdOrThrow(id);
     }
 
-
-
     public User fullUpdate(UUID id, Long telegramId, String username, String firstName, String lastName, Role role) {
-        User user = userRepo.findById(id).orElseThrow(UserNotFoundException::new);
+        User user = findByIdOrThrow(id);
 
-        // check if new telegram id already exist
-        if (!user.getTelegramId().equals(telegramId) && userRepo.existsByTelegramId(telegramId)) {
+        if (userRepository.existsByTelegramIdAndIdNot(telegramId, id)) {
             throw new UserAlreadyExistException(telegramId);
         }
 
@@ -52,17 +49,14 @@ public class UserService {
         user.setLastName(lastName);
         user.setRole(role);
 
-        return userRepo.save(user);
+        return userRepository.save(user);
     }
 
     public User partialUpdate(UUID id, Long telegramId, String username, String firstName, String lastName, Role role) {
-        User user = userRepo.findById(id).orElseThrow(UserNotFoundException::new);
+        User user = findByIdOrThrow(id);
 
-        // check if new telegram id already exist
         if (telegramId != null
-                && !user.getTelegramId().equals(telegramId)
-                && userRepo.existsByTelegramId(telegramId)) {
-
+                && userRepository.existsByTelegramIdAndIdNot(telegramId, id)) {
             throw new UserAlreadyExistException(telegramId);
         }
 
@@ -82,13 +76,15 @@ public class UserService {
             user.setRole(role);
         }
 
-        return userRepo.save(user);
+        return userRepository.save(user);
     }
 
-    public void delete (UUID id) {
-        if (!userRepo.existsById(id)) {
-            throw new UserNotFoundException();
-        }
-        userRepo.deleteById(id);
+    public void delete(UUID id) {
+        userRepository.delete(findByIdOrThrow(id));
+    }
+
+    private User findByIdOrThrow(UUID id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 }

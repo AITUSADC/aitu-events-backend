@@ -6,8 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
-
 @Repository
-public interface UserRepo extends JpaRepository<User, UUID> {
+public interface UserRepository extends JpaRepository<User, UUID> {
     boolean existsByTelegramId(Long telegramId);
+
+    boolean existsByTelegramIdAndIdNot(Long telegramId, UUID id);
 }

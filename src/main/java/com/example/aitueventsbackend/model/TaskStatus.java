@@ -1,7 +1,7 @@
 package com.example.aitueventsbackend.model;
 
-public enum TasksStatus {
+public enum TaskStatus {
     COMPLETED,
     CANCELLED,
-    IN_PROGRESS,
+    IN_PROGRESS
 }

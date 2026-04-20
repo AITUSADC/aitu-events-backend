@@ -10,29 +10,30 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
+@Table(name = "tasks")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Tasks {
+public class Task {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false, updatable = false)
     private UUID id;
 
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 2000)
     private String description;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private TasksStatus status;
+    private TaskStatus status;
 
     @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    private LocalDate created_at;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDate createdAt;
 
     @Column(nullable = false)
     private LocalDate deadline;
