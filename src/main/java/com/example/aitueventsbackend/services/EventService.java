@@ -22,18 +22,6 @@ public class EventService {
         return eventRepository.save(event);
     }
 
-    public Page<Event> getUpcoming(Pageable pageable) {
-        Pageable sorted = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
-                Sort.by(Sort.Direction.ASC, "eventDate"));
-        return eventRepository.findAllByEventDateGreaterThanEqual(Instant.now(), sorted);
-        }
-
-    public Page<Event> getPast(Pageable pageable) {
-        Pageable sorted = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
-                Sort.by(Sort.Direction.DESC, "eventDate"));
-        return eventRepository.findAllByEventDateLessThan(Instant.now(), sorted);
-    }
-
     public Event fullUpdate(UUID id, String title, String description, Instant eventDate, String location) {
         Event event = eventRepository.findById(id).orElseThrow(EventNotFoundException::new);
 
@@ -62,4 +50,17 @@ public class EventService {
         }
         eventRepository.deleteById(id);
     }
+
+    public Page<Event> getUpcoming(Pageable pageable) {
+        Pageable sorted = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
+                Sort.by(Sort.Direction.ASC, "eventDate"));
+        return eventRepository.findAllByEventDateGreaterThanEqual(Instant.now(), sorted);
+    }
+
+    public Page<Event> getPast(Pageable pageable) {
+        Pageable sorted = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
+                Sort.by(Sort.Direction.DESC, "eventDate"));
+        return eventRepository.findAllByEventDateLessThan(Instant.now(), sorted);
+    }
+
     }
